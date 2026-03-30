@@ -1,7 +1,15 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\data",
+    "\\data\\artifacts",
+    "\\data\\processed",
+    "\\data\\raw",
+    "\\ml",
+    "\\ml\\preprocessing",
+    "\\ml\\training",
+    "\\ml\\utils"
   ],
-  "SelectedNode": "\\README.md",
+  "SelectedNode": "\\ml\\preprocessing",
   "PreviewInSolutionExplorer": false
 }
