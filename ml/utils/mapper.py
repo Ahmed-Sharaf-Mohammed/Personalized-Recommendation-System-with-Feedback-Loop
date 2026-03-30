@@ -1,3 +1,5 @@
+import re
+
 class DataMapper:
     def __init__(self):
         # interactions
@@ -44,8 +46,22 @@ class DataMapper:
     def map_interaction(self, row):
         return self.map_row(row, self.interaction_mapping)
 
+    def clean_price(self, price):
+        if price is None:
+            return None
+
+        price = str(price)
+        price = re.sub(r"[^\d.]", "", price) 
+        try:
+            return float(price) if price else None
+        except:
+            return None
+
+
     def map_item(self, row):
-        return self.map_row(row, self.item_mapping)
+        mapped = self.map_row(row, self.item_mapping)    
+        mapped["price"] = self.clean_price(mapped.get("price"))
+        return mapped
 
     def map_browsing(self, row):
         return self.map_row(row, self.browsing_mapping)

@@ -5,6 +5,7 @@ import os
 from ml.utils.mapper import DataMapper
 
 
+
 def run_preprocessing(
     interactions_file,
     meta_file,
@@ -60,3 +61,5 @@ def run_preprocessing(
     df_items.to_parquet(f"{output_dir}/items.parquet", index=False)
 
     print("💾 Data saved successfully")
+
+run_preprocessing( "data/raw/Electronics.jsonl.gz", "data/raw/meta_Electronics.jsonl.gz" )
