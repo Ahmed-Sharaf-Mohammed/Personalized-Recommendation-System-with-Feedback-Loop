@@ -43,6 +43,14 @@ class DataMapper:
     def map_row(self, row, mapping):
         return {target: row.get(source) for target, source in mapping.items()}
 
+    """def map_row(self, row, mapping):   # This is a more verbose version of the same function, for clarity.
+    result = {}
+
+    for target, source in mapping.items():
+        result[target] = row.get(source)
+
+    return result"""
+
     def map_interaction(self, row):
         return self.map_row(row, self.interaction_mapping)
 
@@ -56,7 +64,6 @@ class DataMapper:
             return float(price) if price else None
         except:
             return None
-
 
     def map_item(self, row):
         mapped = self.map_row(row, self.item_mapping)    
