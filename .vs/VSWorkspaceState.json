@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\data\\artifacts",
+    "\\data\\processed",
+    "\\data\\raw",
+    "\\ml",
+    "\\ml\\utils"
+  ],
+  "SelectedNode": "\\ml\\utils\\loader.py",
+  "PreviewInSolutionExplorer": false
+}
