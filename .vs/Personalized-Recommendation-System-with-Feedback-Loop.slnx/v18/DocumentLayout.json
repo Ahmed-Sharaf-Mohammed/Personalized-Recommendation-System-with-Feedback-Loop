@@ -1,12 +1,139 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Ahmed\\OneDrive\\Desktop\\AMIT\\Project\\Personalized-Recommendation-System-with-Feedback-Loop\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Ahmed\\OneDrive\\Desktop\\AMIT\\Project\\Personalized-Recommendation-System-with-Feedback-Loop\\ml\\preprocessing\\features.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:ml\\preprocessing\\features.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Ahmed\\OneDrive\\Desktop\\AMIT\\Project\\Personalized-Recommendation-System-with-Feedback-Loop\\ml\\preprocessing\\filtering.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:ml\\preprocessing\\filtering.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Ahmed\\OneDrive\\Desktop\\AMIT\\Project\\Personalized-Recommendation-System-with-Feedback-Loop\\ml\\preprocessing\\preprocess.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:ml\\preprocessing\\preprocess.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Ahmed\\OneDrive\\Desktop\\AMIT\\Project\\Personalized-Recommendation-System-with-Feedback-Loop\\ml\\preprocessing\\eda.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:ml\\preprocessing\\eda.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Ahmed\\OneDrive\\Desktop\\AMIT\\Project\\Personalized-Recommendation-System-with-Feedback-Loop\\ml\\utils\\loader.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:ml\\utils\\loader.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Ahmed\\OneDrive\\Desktop\\AMIT\\Project\\Personalized-Recommendation-System-with-Feedback-Loop\\ml\\utils\\mapper.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:ml\\utils\\mapper.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Ahmed\\OneDrive\\Desktop\\AMIT\\Project\\Personalized-Recommendation-System-with-Feedback-Loop\\pipelines\\preprocess_pipeline.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pipelines\\preprocess_pipeline.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "filtering.py",
+              "DocumentMoniker": "C:\\Users\\Ahmed\\OneDrive\\Desktop\\AMIT\\Project\\Personalized-Recommendation-System-with-Feedback-Loop\\ml\\preprocessing\\filtering.py",
+              "RelativeDocumentMoniker": "ml\\preprocessing\\filtering.py",
+              "ToolTip": "C:\\Users\\Ahmed\\OneDrive\\Desktop\\AMIT\\Project\\Personalized-Recommendation-System-with-Feedback-Loop\\ml\\preprocessing\\filtering.py",
+              "RelativeToolTip": "ml\\preprocessing\\filtering.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-04-24T10:52:00.186Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "loader.py",
+              "DocumentMoniker": "C:\\Users\\Ahmed\\OneDrive\\Desktop\\AMIT\\Project\\Personalized-Recommendation-System-with-Feedback-Loop\\ml\\utils\\loader.py",
+              "RelativeDocumentMoniker": "ml\\utils\\loader.py",
+              "ToolTip": "C:\\Users\\Ahmed\\OneDrive\\Desktop\\AMIT\\Project\\Personalized-Recommendation-System-with-Feedback-Loop\\ml\\utils\\loader.py",
+              "RelativeToolTip": "ml\\utils\\loader.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-04-24T09:20:37.325Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "mapper.py",
+              "DocumentMoniker": "C:\\Users\\Ahmed\\OneDrive\\Desktop\\AMIT\\Project\\Personalized-Recommendation-System-with-Feedback-Loop\\ml\\utils\\mapper.py",
+              "RelativeDocumentMoniker": "ml\\utils\\mapper.py",
+              "ToolTip": "C:\\Users\\Ahmed\\OneDrive\\Desktop\\AMIT\\Project\\Personalized-Recommendation-System-with-Feedback-Loop\\ml\\utils\\mapper.py",
+              "RelativeToolTip": "ml\\utils\\mapper.py",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-04-24T09:20:33.054Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "eda.py",
+              "DocumentMoniker": "C:\\Users\\Ahmed\\OneDrive\\Desktop\\AMIT\\Project\\Personalized-Recommendation-System-with-Feedback-Loop\\ml\\preprocessing\\eda.py",
+              "RelativeDocumentMoniker": "ml\\preprocessing\\eda.py",
+              "ToolTip": "C:\\Users\\Ahmed\\OneDrive\\Desktop\\AMIT\\Project\\Personalized-Recommendation-System-with-Feedback-Loop\\ml\\preprocessing\\eda.py",
+              "RelativeToolTip": "ml\\preprocessing\\eda.py",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-04-24T09:20:22.06Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "features.py",
+              "DocumentMoniker": "C:\\Users\\Ahmed\\OneDrive\\Desktop\\AMIT\\Project\\Personalized-Recommendation-System-with-Feedback-Loop\\ml\\preprocessing\\features.py",
+              "RelativeDocumentMoniker": "ml\\preprocessing\\features.py",
+              "ToolTip": "C:\\Users\\Ahmed\\OneDrive\\Desktop\\AMIT\\Project\\Personalized-Recommendation-System-with-Feedback-Loop\\ml\\preprocessing\\features.py",
+              "RelativeToolTip": "ml\\preprocessing\\features.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-04-24T09:20:20.697Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "preprocess.py",
+              "DocumentMoniker": "C:\\Users\\Ahmed\\OneDrive\\Desktop\\AMIT\\Project\\Personalized-Recommendation-System-with-Feedback-Loop\\ml\\preprocessing\\preprocess.py",
+              "RelativeDocumentMoniker": "ml\\preprocessing\\preprocess.py",
+              "ToolTip": "C:\\Users\\Ahmed\\OneDrive\\Desktop\\AMIT\\Project\\Personalized-Recommendation-System-with-Feedback-Loop\\ml\\preprocessing\\preprocess.py",
+              "RelativeToolTip": "ml\\preprocessing\\preprocess.py",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAAEcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-04-24T09:20:11.664Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "preprocess_pipeline.py",
+              "DocumentMoniker": "C:\\Users\\Ahmed\\OneDrive\\Desktop\\AMIT\\Project\\Personalized-Recommendation-System-with-Feedback-Loop\\pipelines\\preprocess_pipeline.py",
+              "RelativeDocumentMoniker": "pipelines\\preprocess_pipeline.py",
+              "ToolTip": "C:\\Users\\Ahmed\\OneDrive\\Desktop\\AMIT\\Project\\Personalized-Recommendation-System-with-Feedback-Loop\\pipelines\\preprocess_pipeline.py",
+              "RelativeToolTip": "pipelines\\preprocess_pipeline.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-04-24T09:20:02.865Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

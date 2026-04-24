@@ -4,6 +4,7 @@ import pandas as pd
 import os
 from ml.utils.mapper import DataMapper
 from ml.preprocessing.eda import run_eda
+from ml.preprocessing.filtering import iterative_filter
 
 
 # الخطوات الرئيسية في هذا الكود تشمل:
@@ -18,7 +19,7 @@ def run_preprocessing(
     interactions_file,
     meta_file,
     output_dir="data/processed/",
-    max_rows=500000
+    max_rows=1000000
 ):
     mapper = DataMapper()
 
@@ -62,6 +63,10 @@ def run_preprocessing(
     df_inter = df_inter.dropna(subset=["user_id", "item_id"])
     df_items = df_items.drop_duplicates(subset=["item_id"])
 
+
+    print("🧹 Applying filtering...")
+    df_inter = iterative_filter(df_inter)
+
     # save
     os.makedirs(output_dir, exist_ok=True)
 
@@ -72,5 +77,5 @@ def run_preprocessing(
 
 
 
-
+run_preprocessing("data/raw/Electronics.jsonl.gz", "data/raw/meta_Electronics.jsonl.gz")
 run_eda()
