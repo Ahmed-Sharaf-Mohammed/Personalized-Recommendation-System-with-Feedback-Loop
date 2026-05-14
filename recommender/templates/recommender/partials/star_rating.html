@@ -1,0 +1,10 @@
+<div class="star-rating d-inline-flex gap-1" data-item-id="{{ item_id }}">
+  {% for i in "12345" %}
+  <button type="button" class="btn btn-sm p-0 star-btn"
+          data-value="{{ forloop.counter }}"
+          onclick="submitRating('{{ item_id }}', {{ forloop.counter }}, this)">
+    <i class="bi bi-star{{ forloop.counter|add:0|stringformat:'d' }} text-warning fs-5"></i>
+  </button>
+  {% endfor %}
+  <span class="small text-muted ms-1 rating-feedback d-none">Saved!</span>
+</div>

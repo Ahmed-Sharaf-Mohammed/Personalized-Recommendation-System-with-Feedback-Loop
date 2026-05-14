@@ -1,0 +1,18 @@
+<a href="{% url 'recommender:product_detail' item.item_id %}?source={{ source|default:'direct' }}"
+   class="text-decoration-none"
+   data-item-id="{{ item.item_id }}">
+  <div class="card border-0 shadow-sm h-100 overflow-hidden">
+    <img src="{{ item.display_image }}"
+         alt="{{ item.title }}"
+         class="card-img-top object-fit-cover"
+         style="height:80px"
+         loading="lazy"
+         onerror="this.src='https://picsum.photos/seed/no/160/80'" />
+    <div class="card-body p-2 text-center">
+      <p class="small fw-semibold text-dark mb-0 lh-sm">{{ item.title|truncatechars:30 }}</p>
+      {% if item.price_display %}
+      <p class="small text-warning fw-bold mb-0">${{ item.price_display }}</p>
+      {% endif %}
+    </div>
+  </div>
+</a>

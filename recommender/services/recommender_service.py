@@ -1,21 +1,26 @@
-from ml.inference.predict import get_recommendations
-from ml.utils.loader import get_item
-from recommender.models import UserInteraction
-from django.utils import timezone
+"""
+Recommender Service — placeholder for ML-based recommendations.
+Will be connected to ml/inference/predict.py when the model is ready.
+"""
+import logging
+from recommender.services.interaction_service import log_interaction
+from recommender.loaders.item_loader import get_item_by_id
 
-def log_interaction(user_id, item_id, action_type='view', rating=None):
-    """تسجيل تفاعل المستخدم في قاعدة البيانات"""
-    UserInteraction.objects.create(
-        user_id=user_id,
-        item_id=item_id,
-        rating=rating,
-        action_type=action_type,
-        timestamp=timezone.now()
-    )
+logger = logging.getLogger(__name__)
 
-def get_item_details(item_id):
-    return get_item(item_id)
 
-def get_user_recommendations(user_id):
-    # هنا يمكن استخدام الموديل من ML
-    return get_recommendations(user_id)
+def get_user_recommendations(user_id: str, limit: int = 10) -> list[dict]:
+    """
+    Placeholder: returns empty list until ML model is trained.
+    The ML pipeline (ml/inference/predict.py) will plug in here.
+    """
+    logger.info(f"[RecommenderService] Recommendations requested for user={user_id} (ML not ready yet)")
+    return []
+
+
+def get_item_details(item_id: str) -> dict | None:
+    return get_item_by_id(item_id)
+
+
+# Re-export for backward compat
+__all__ = ["get_user_recommendations", "get_item_details", "log_interaction"]

@@ -1,0 +1,144 @@
+{% extends "recommender/base.html" %}
+{% load recommender_tags %}
+{% block title %}{% if query %}Search: {{ query }}{% else %}Search{% endif %} · RecoShop{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- Search Bar (big) -->
+  <div class="row justify-content-center mb-4">
+    <div class="col-md-8">
+      <form method="get" action="">
+        <div class="input-group input-group-lg shadow-sm">
+          <input class="form-control" type="search" name="q"
+                 value="{{ query }}" placeholder="Search for products, brands, categories…"
+                 autofocus />
+          <button class="btn btn-warning px-4" type="submit">
+            <i class="bi bi-search me-1"></i> Search
+          </button>
+        </div>
+        {% if selected_category %}
+        <input type="hidden" name="category" value="{{ selected_category }}" />
+        {% endif %}
+      </form>
+    </div>
+  </div>
+
+  <!-- Search History -->
+  {% if search_history and not query %}
+  <div class="mb-4">
+    <h6 class="text-muted small fw-semibold">RECENT SEARCHES</h6>
+    <div class="d-flex flex-wrap gap-2">
+      {% for q in search_history %}
+      <a href="?q={{ q|urlencode }}" class="badge bg-light text-dark border text-decoration-none fs-6">
+        <i class="bi bi-clock-history me-1"></i>{{ q }}
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if query %}
+  <!-- Results toolbar -->
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+    <div>
+      <h5 class="mb-0">Results for "<strong>{{ query }}</strong>"</h5>
+      <small class="text-muted">{{ total }} products found</small>
+    </div>
+    <div class="d-flex gap-2 align-items-center">
+      <!-- Category filter -->
+      <form method="get">
+        <input type="hidden" name="q" value="{{ query }}" />
+        <input type="hidden" name="sort" value="{{ sort_by }}" />
+        <select name="category" class="form-select form-select-sm" onchange="this.form.submit()">
+          <option value="">All Categories</option>
+          {% for cat in all_categories %}
+          <option value="{{ cat }}" {% if cat == selected_category %}selected{% endif %}>{{ cat|truncatechars:22 }}</option>
+          {% endfor %}
+        </select>
+      </form>
+      <!-- Sort -->
+      <form method="get">
+        <input type="hidden" name="q" value="{{ query }}" />
+        <input type="hidden" name="category" value="{{ selected_category }}" />
+        <select name="sort" class="form-select form-select-sm" onchange="this.form.submit()">
+          <option value="relevance" {% if sort_by == 'relevance' %}selected{% endif %}>Relevance</option>
+          <option value="rating" {% if sort_by == 'rating' %}selected{% endif %}>Top Rated</option>
+          <option value="popular" {% if sort_by == 'popular' %}selected{% endif %}>Most Popular</option>
+          <option value="price_asc" {% if sort_by == 'price_asc' %}selected{% endif %}>Price ↑</option>
+          <option value="price_desc" {% if sort_by == 'price_desc' %}selected{% endif %}>Price ↓</option>
+        </select>
+      </form>
+    </div>
+  </div>
+
+  {% if items %}
+  <div class="row g-3">
+    {% for item in items %}
+    <div class="col-6 col-md-4 col-lg-3">
+      {% include "recommender/partials/product_card.html" with item=item source="search" %}
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Pagination -->
+  {% if total_pages > 1 %}
+  <nav class="mt-4">
+    <ul class="pagination justify-content-center">
+      {% if has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?q={{ query }}&category={{ selected_category }}&sort={{ sort_by }}&page={{ previous_page }}">
+          <i class="bi bi-chevron-left"></i>
+        </a>
+      </li>
+      {% endif %}
+      {% for p in page_range %}
+        {% if p == -1 %}
+        <li class="page-item disabled"><span class="page-link">…</span></li>
+        {% elif p == page %}
+        <li class="page-item active"><span class="page-link">{{ p }}</span></li>
+        {% else %}
+        <li class="page-item">
+          <a class="page-link" href="?q={{ query }}&category={{ selected_category }}&sort={{ sort_by }}&page={{ p }}">{{ p }}</a>
+        </li>
+        {% endif %}
+      {% endfor %}
+      {% if has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?q={{ query }}&category={{ selected_category }}&sort={{ sort_by }}&page={{ next_page }}">
+          <i class="bi bi-chevron-right"></i>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endif %}
+
+  {% else %}
+  <div class="text-center py-5 text-muted">
+    <i class="bi bi-emoji-frown display-4 d-block mb-3"></i>
+    <h5>No results for "{{ query }}"</h5>
+    <p>Try different keywords or browse by category.</p>
+    <a href="{% url 'recommender:product_list' %}" class="btn btn-outline-dark btn-sm">Browse All Products</a>
+  </div>
+  {% endif %}
+
+  {% else %}
+  <!-- No query yet — show category browse -->
+  <div class="mt-2">
+    <h6 class="text-muted small fw-semibold mb-3">BROWSE BY CATEGORY</h6>
+    <div class="row g-2">
+      {% for cat in all_categories %}
+      <div class="col-6 col-md-4 col-lg-3">
+        <a href="{% url 'recommender:product_list' %}?category={{ cat|urlencode }}"
+           class="btn btn-outline-secondary w-100 text-start">
+          <i class="bi bi-tag me-2"></i>{{ cat|truncatechars:30 }}
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

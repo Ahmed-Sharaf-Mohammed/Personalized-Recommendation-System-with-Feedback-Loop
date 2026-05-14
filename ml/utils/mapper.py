@@ -11,9 +11,9 @@ class DataMapper:
             "review_text": "text",
             "review_title": "title",
             "verified": "verified_purchase",
-            "helpful_votes": "helpful_votes"
+            "helpful_votes": "helpful_votes",
+            "images": "images"
         }
-
         # items
         self.item_mapping = {
             "item_id": "parent_asin",
@@ -26,7 +26,10 @@ class DataMapper:
             "avg_rating": "average_rating",
             "rating_count": "rating_number",
             "store": "store",
-            "details": "details"
+            "details": "details",
+            "images": "images",
+            "videos": "videos",
+            "bought_together": "bought_together"
         }
 
         # browsing logs

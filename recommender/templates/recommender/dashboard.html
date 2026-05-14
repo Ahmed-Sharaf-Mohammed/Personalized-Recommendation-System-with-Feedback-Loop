@@ -1,0 +1,235 @@
+{% extends "recommender/base.html" %}
+{% load recommender_tags %}
+{% block title %}Dashboard · RecoShop{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="fw-bold mb-1">
+        <i class="bi bi-person-circle text-warning me-2"></i>{{ user.username }}'s Dashboard
+      </h2>
+      <p class="text-muted mb-0">Your activity, ratings, and personalized data</p>
+    </div>
+    <a href="{% url 'recommender:product_list' %}" class="btn btn-warning">
+      <i class="bi bi-grid me-1"></i> Browse Products
+    </a>
+  </div>
+
+  <!-- Stats Row -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+      <div class="card border-0 shadow-sm text-center p-3">
+        <div class="display-6 fw-bold text-warning">{{ interaction_count }}</div>
+        <div class="small text-muted">Ratings Given</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="card border-0 shadow-sm text-center p-3">
+        <div class="display-6 fw-bold text-dark">{{ recently_viewed|length }}</div>
+        <div class="small text-muted">Items Viewed</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="card border-0 shadow-sm text-center p-3">
+        <div class="display-6 fw-bold text-warning">{{ cart_count }}</div>
+        <div class="small text-muted">In Cart</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="card border-0 shadow-sm text-center p-3">
+        <div class="display-6 fw-bold text-dark">{{ search_history|length }}</div>
+        <div class="small text-muted">Searches</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+
+    <!-- LEFT COLUMN -->
+    <div class="col-lg-8">
+
+      <!-- Personalized Recommendations Placeholder -->
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+          <h5 class="fw-bold mb-3">
+            <i class="bi bi-cpu text-warning me-2"></i>Personalized Recommendations
+          </h5>
+          {% if recommendations %}
+          <div class="row g-3">
+            {% for item in recommendations %}
+            <div class="col-6 col-md-4">
+              {% include "recommender/partials/product_card.html" with item=item source="recommendation" %}
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="text-center py-4 text-muted">
+            <i class="bi bi-cpu display-4 d-block mb-2"></i>
+            <p class="mb-1">The recommendation engine is still training.</p>
+            <p class="small">Rate more products to improve your personalized feed.</p>
+            <a href="{% url 'recommender:product_list' %}" class="btn btn-outline-warning btn-sm mt-1">
+              Discover & Rate Products
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Rated Items -->
+      {% if rated_items %}
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+          <h5 class="fw-bold mb-3">
+            <i class="bi bi-star text-warning me-2"></i>Your Ratings
+          </h5>
+          <div class="table-responsive">
+            <table class="table table-hover small align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Rating</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in rated_items %}
+                <tr>
+                  <td>
+                    {% if item.item_id %}
+                    <a href="{% url 'recommender:product_detail' item.item_id %}"
+                       class="text-decoration-none text-dark fw-semibold">
+                      {{ item.title|default:item.item_id|truncatechars:40 }}
+                    </a>
+                    {% else %}
+                    <span class="text-muted">{{ item.item_id }}</span>
+                    {% endif %}
+                  </td>
+                  <td class="text-muted">{{ item.category|default:"-"|truncatechars:20 }}</td>
+                  <td>
+                    <span class="badge bg-warning text-dark">
+                      <i class="bi bi-star-fill me-1"></i>{{ item.rating }}
+                    </span>
+                  </td>
+                  <td class="text-muted">{{ item.timestamp|date:"M d, Y" }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Recently Viewed -->
+      {% if recently_viewed %}
+      <div class="card border-0 shadow-sm">
+        <div class="card-body">
+          <h5 class="fw-bold mb-3">
+            <i class="bi bi-clock-history text-warning me-2"></i>Recently Viewed
+          </h5>
+          <div class="row g-2">
+            {% for item in recently_viewed %}
+            <div class="col-6 col-md-3">
+              {% include "recommender/partials/product_card_sm.html" with item=item source="dashboard" %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="col-lg-4">
+
+      <!-- Cart -->
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+          <h6 class="fw-bold mb-3">
+            <i class="bi bi-cart3 text-warning me-2"></i>Cart
+            <span class="badge bg-warning text-dark ms-1">{{ cart_count }}</span>
+          </h6>
+          {% if cart_items %}
+          <ul class="list-unstyled mb-0">
+            {% for item in cart_items %}
+            <li class="d-flex justify-content-between align-items-center py-2 border-bottom">
+              <div>
+                <a href="{% url 'recommender:product_detail' item.item_id %}"
+                   class="text-decoration-none text-dark small fw-semibold">
+                  {{ item.title|truncatechars:32 }}
+                </a>
+                {% if item.price %}
+                <div class="small text-warning fw-bold">${{ item.price }}</div>
+                {% endif %}
+              </div>
+              <button class="btn btn-sm btn-outline-danger"
+                      onclick="removeFromCartById('{{ item.item_id }}', this)">
+                <i class="bi bi-trash3"></i>
+              </button>
+            </li>
+            {% endfor %}
+          </ul>
+          {% else %}
+          <p class="text-muted small mb-0">Your cart is empty.</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Search History -->
+      {% if search_history %}
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+          <h6 class="fw-bold mb-3">
+            <i class="bi bi-search text-warning me-2"></i>Search History
+          </h6>
+          <div class="d-flex flex-wrap gap-1">
+            {% for q in search_history %}
+            <a href="{% url 'recommender:search' %}?q={{ q|urlencode }}"
+               class="badge bg-light text-dark border text-decoration-none">
+              {{ q|truncatechars:20 }}
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Account Info -->
+      <div class="card border-0 shadow-sm">
+        <div class="card-body">
+          <h6 class="fw-bold mb-3"><i class="bi bi-person text-warning me-2"></i>Account</h6>
+          <p class="small mb-1"><strong>Username:</strong> {{ user.username }}</p>
+          <p class="small mb-1"><strong>Email:</strong> {{ user.email|default:"–" }}</p>
+          <p class="small mb-3"><strong>Member since:</strong> {{ user.date_joined|date:"M Y" }}</p>
+          <a href="{% url 'recommender:logout' %}" class="btn btn-outline-dark btn-sm w-100">
+            <i class="bi bi-box-arrow-right me-1"></i>Logout
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+async function removeFromCartById(itemId, btn) {
+  const res = await fetch('{% url "recommender:api_track" %}', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrf() },
+    body: JSON.stringify({ item_id: itemId, event_type: 'remove_from_cart', source: 'dashboard' }),
+  });
+  if (res.ok) {
+    btn.closest('li').remove();
+    const data = await res.json();
+    updateCartBadge(data.cart_count);
+  }
+}
+</script>
+{% endblock %}

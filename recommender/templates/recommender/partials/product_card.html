@@ -1,0 +1,55 @@
+<div class="card product-card h-100 border-0 shadow-sm"
+     data-item-id="{{ item.item_id }}"
+     data-source="{{ source|default:'direct' }}">
+  <a href="{% url 'recommender:product_detail' item.item_id %}?source={{ source|default:'direct' }}"
+     class="product-card-link text-decoration-none">
+
+    <!-- Amazon product image -->
+    <div class="product-img-wrap position-relative overflow-hidden">
+      <img src="{{ item.display_image }}"
+           alt="{{ item.title }}"
+           class="product-img w-100"
+           loading="lazy"
+           onerror="this.src='https://picsum.photos/seed/{{ item.item_id }}/400/300'" />
+
+      <!-- Category badge -->
+      <span class="position-absolute top-0 start-0 m-2 badge bg-dark bg-opacity-75 small">
+        {{ item.category|truncatechars:18 }}
+      </span>
+
+      <!-- Rating badge -->
+      {% if item.avg_rating %}
+      <span class="position-absolute top-0 end-0 m-2 badge bg-warning text-dark small fw-bold">
+        <i class="bi bi-star-fill"></i> {{ item.avg_rating }}
+      </span>
+      {% endif %}
+    </div>
+
+    <div class="card-body px-3 py-2">
+      <h6 class="card-title fw-semibold mb-1 text-dark lh-sm" style="min-height:2.8rem">
+        {{ item.title|truncatechars:60 }}
+      </h6>
+      {% if item.store %}
+      <p class="small text-muted mb-1">
+        <i class="bi bi-shop me-1"></i>{{ item.store|truncatechars:22 }}
+      </p>
+      {% endif %}
+      <div class="d-flex justify-content-between align-items-center mt-2">
+        {% if item.price_display %}
+        <span class="fw-bold text-dark">${{ item.price_display }}</span>
+        {% else %}
+        <span class="text-muted small">Price N/A</span>
+        {% endif %}
+        <div class="d-flex align-items-center gap-1">
+          <small class="text-muted">{{ item.rating_count }}</small>
+          <button class="btn btn-sm btn-outline-warning add-to-cart-btn"
+                  data-item-id="{{ item.item_id }}"
+                  onclick="event.preventDefault(); trackAndCart(this);"
+                  title="Add to cart">
+            <i class="bi bi-cart-plus"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>

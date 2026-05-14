@@ -1,0 +1,86 @@
+/* ── RecoShop Main Stylesheet ─────────────────────────────────────────── */
+:root {
+  --brand-yellow: #f5c518;
+  --brand-dark:   #1a1a2e;
+  --card-radius:  12px;
+}
+
+/* ── HERO ─────────────────────────────────────────────────────────────── */
+.hero-section {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+  color: #fff;
+  padding: 5rem 0 4rem;
+}
+.hero-section .text-muted { color: #adb5bd !important; }
+.stat-card { min-width: 120px; }
+
+/* ── PRODUCT CARD ──────────────────────────────────────────────────────── */
+.product-card {
+  border-radius: var(--card-radius);
+  transition: transform .15s ease, box-shadow .15s ease;
+  overflow: hidden;
+}
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(0,0,0,.14) !important;
+}
+
+/* ── PRODUCT IMAGE ─────────────────────────────────────────────────────── */
+.product-img-wrap {
+  height: 180px;
+  position: relative;
+  overflow: hidden;
+}
+.product-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  transition: transform .3s ease;
+}
+.product-card:hover .product-img {
+  transform: scale(1.05);
+}
+.object-fit-cover { object-fit: cover; }
+
+/* ── REVIEW CARD ───────────────────────────────────────────────────────── */
+.review-card {
+  border-left: 3px solid transparent;
+  transition: border-color .2s;
+}
+.review-card:hover { border-left-color: var(--brand-yellow); }
+.review-new { animation: slideIn .4s ease; }
+@keyframes slideIn {
+  from { opacity:0; transform: translateY(-12px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+/* ── STAR PICKER ───────────────────────────────────────────────────────── */
+.star-pick { transition: transform .1s; }
+.star-pick:hover { transform: scale(1.2); }
+
+/* ── NAVBAR ────────────────────────────────────────────────────────────── */
+.navbar-dark .nav-link { color: rgba(255,255,255,.8); transition: color .15s; }
+.navbar-dark .nav-link:hover { color: var(--brand-yellow); }
+
+/* ── PAGINATION ────────────────────────────────────────────────────────── */
+.page-link { color: var(--brand-dark); border-radius: 8px !important; margin: 0 2px; }
+.page-item.active .page-link {
+  background: var(--brand-yellow);
+  border-color: var(--brand-yellow);
+  color: #000;
+}
+
+/* ── DETAIL IMAGE ──────────────────────────────────────────────────────── */
+.product-detail-img-wrap img { transition: transform .3s; }
+.product-detail-img-wrap:hover img { transform: scale(1.03); }
+
+/* ── BADGES ────────────────────────────────────────────────────────────── */
+.bg-success-subtle { background: #d1fae5 !important; }
+.text-success { color: #065f46 !important; }
+
+/* ── GENERAL ───────────────────────────────────────────────────────────── */
+.card { border-radius: var(--card-radius); }
+footer { font-size: .85rem; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
