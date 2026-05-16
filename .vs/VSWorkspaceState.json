@@ -1,12 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\data",
-    "\\data\\artifacts",
     "\\ml",
-    "\\ml\\preprocessing",
     "\\recommender"
   ],
-  "SelectedNode": "\\ml\\preprocessing\\explicit_transform.py",
+  "SelectedNode": "\\ml\\preprocessing",
   "PreviewInSolutionExplorer": false
 }

@@ -123,3 +123,105 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# ─── Logging ──────────────────────────────────────────────────────────────────
+
+import os as _os
+_LOGS_DIR = BASE_DIR / "logs"
+_LOGS_DIR.mkdir(exist_ok=True)
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+
+    "formatters": {
+        "verbose": {
+            "format": "[{asctime}] {levelname} {name}: {message}",
+            "style":  "{",
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        },
+        "interaction": {
+            # Compact single-line format for the interactions log
+            "format": "{asctime} | {message}",
+            "style":  "{",
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        },
+    },
+
+    "handlers": {
+        # Console — all DEBUG+ messages
+        "console": {
+            "class":     "logging.StreamHandler",
+            "formatter": "verbose",
+            "level":     "DEBUG",
+        },
+        # General application log
+        "app_file": {
+            "class":       "logging.handlers.RotatingFileHandler",
+            "filename":    str(_LOGS_DIR / "app.log"),
+            "maxBytes":    5 * 1024 * 1024,   # 5 MB
+            "backupCount": 3,
+            "formatter":   "verbose",
+            "level":       "INFO",
+            "encoding":    "utf-8",
+        },
+        # User-interaction events log (views, clicks, ratings, searches)
+        "interactions_file": {
+            "class":       "logging.handlers.RotatingFileHandler",
+            "filename":    str(_LOGS_DIR / "interactions.log"),
+            "maxBytes":    10 * 1024 * 1024,  # 10 MB
+            "backupCount": 5,
+            "formatter":   "interaction",
+            "level":       "INFO",
+            "encoding":    "utf-8",
+        },
+        # ML pipeline log (training, evaluation, retraining)
+        "ml_file": {
+            "class":       "logging.handlers.RotatingFileHandler",
+            "filename":    str(_LOGS_DIR / "ml.log"),
+            "maxBytes":    10 * 1024 * 1024,
+            "backupCount": 3,
+            "formatter":   "verbose",
+            "level":       "INFO",
+            "encoding":    "utf-8",
+        },
+    },
+
+    "loggers": {
+        # Django internals
+        "django": {
+            "handlers": ["console", "app_file"],
+            "level":    "INFO",
+            "propagate": False,
+        },
+        # User interaction events (tracking, browsing, ratings)
+        "recommender.interactions": {
+            "handlers": ["interactions_file", "console"],
+            "level":    "INFO",
+            "propagate": False,
+        },
+        # ML layer (training, inference, pipelines)
+        "ml": {
+            "handlers": ["ml_file", "console"],
+            "level":    "INFO",
+            "propagate": False,
+        },
+        # Recommender app (views, services)
+        "recommender": {
+            "handlers": ["app_file", "console"],
+            "level":    "INFO",
+            "propagate": False,
+        },
+        # Root logger — catch everything else
+        "": {
+            "handlers": ["console", "app_file"],
+            "level":    "WARNING",
+        },
+    },
+}
+
+
+# ─── MLflow ───────────────────────────────────────────────────────────────────
+
+MLFLOW_TRACKING_URI = str(BASE_DIR / "mlruns")

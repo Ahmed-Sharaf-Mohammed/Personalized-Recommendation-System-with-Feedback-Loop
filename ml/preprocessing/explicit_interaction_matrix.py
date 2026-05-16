@@ -12,8 +12,11 @@ from scipy.sparse import csr_matrix, save_npz
 # Paths
 # ---------------------------------------------------
 
-PROCESSED_DIR = "data/processed"
-ARTIFACTS_DIR = "data/artifacts"
+from pathlib import Path as _Path
+_PROJECT_ROOT = _Path(__file__).resolve().parent.parent.parent
+PROCESSED_DIR = str(_PROJECT_ROOT / "data" / "processed")
+ARTIFACTS_DIR = str(_PROJECT_ROOT / "data" / "artifacts")
+
 
 os.makedirs(ARTIFACTS_DIR, exist_ok=True)
 

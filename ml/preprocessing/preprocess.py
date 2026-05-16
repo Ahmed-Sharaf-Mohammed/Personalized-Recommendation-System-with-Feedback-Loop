@@ -19,7 +19,7 @@ def run_preprocessing(
     interactions_file,
     meta_file,
     output_dir="data/processed/",
-    max_rows=1000000
+    max_rows=50000
 ):
     mapper = DataMapper()
 
@@ -66,6 +66,12 @@ def run_preprocessing(
 
     print("🧹 Applying filtering...")
     df_inter = iterative_filter(df_inter)
+
+
+    # filter items based on remaining interactions
+    valid_item_ids = df_inter["item_id"].unique()
+    df_items = df_items[df_items["item_id"].isin(valid_item_ids)]
+
 
     # save
     os.makedirs(output_dir, exist_ok=True)

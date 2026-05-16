@@ -4,7 +4,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.http import Http404
+from django.http import Http404, JsonResponse
 
 from recommender.services.item_service import (
     search_items, get_featured_items, get_category_previews,
@@ -136,16 +136,23 @@ def dashboard(request):
             "timestamp":    inter["timestamp"],
         })
 
-    rv_ids      = get_recently_viewed(request)
-    cart_ids    = get_cart(request)
+    rv_ids   = get_recently_viewed(request)
+    cart_ids = get_cart(request)
+
+    # ── Personalized recommendations ─────────────────────────────────────────
+    recommendations = _get_dashboard_recommendations(
+        user_id=user_id,
+        exclude_ids=rated_ids,
+        k=6,
+    )
 
     return render(request, "recommender/dashboard.html", {
-        "rated_items":      rated_with_meta,
-        "recently_viewed":  get_items_by_ids(rv_ids[:12]),
-        "cart_items":       get_items_by_ids(cart_ids),
-        "search_history":   get_search_history(request),
-        "recommendations":  [],
-        "cart_count":       len(cart_ids),
+        "rated_items":       rated_with_meta,
+        "recently_viewed":   get_items_by_ids(rv_ids[:12]),
+        "cart_items":        get_items_by_ids(cart_ids),
+        "search_history":    get_search_history(request),
+        "recommendations":   recommendations,
+        "cart_count":        len(cart_ids),
         "interaction_count": len(interactions),
     })
 
@@ -203,3 +210,105 @@ def _int(v, default=1):
         return int(v)
     except (ValueError, TypeError):
         return default
+
+
+def _get_dashboard_recommendations(user_id: str, exclude_ids: list, k: int = 6):
+    """
+    Returns up to k Item objects for the dashboard recommendations section.
+    Uses the ML HybridPredictor (with popularity fallback) — returns proper
+    Django Item ORM objects so templates can use .display_image etc.
+    Falls back to popular items from the DB if the predictor returns nothing.
+    """
+    from recommender.models import UserInteraction, UserBrowsingLog
+    from ml.inference.recommender import get_recommendations
+
+    try:
+        # Collect user's full interaction history for the CB arm
+        explicit = list(
+            UserInteraction.objects.filter(user_id=user_id)
+            .values_list("item_id", flat=True)
+        )
+        implicit = list(
+            UserBrowsingLog.objects.filter(user_id=user_id)
+            .values_list("item_id", flat=True)
+        )
+        user_item_ids = list(set(explicit + implicit))
+
+        rec_ids = get_recommendations(
+            user_id=user_id,
+            user_item_ids=user_item_ids,
+            k=k,
+            exclude_item_ids=list(set(exclude_ids + user_item_ids)),
+        )
+
+        if rec_ids:
+            # get_items_by_ids from item_service returns proper Item objects
+            return get_items_by_ids(rec_ids)
+
+    except Exception as e:
+        logger.warning("[Dashboard] Recommender error, using DB fallback: %s", e)
+
+    # Hard fallback: top-rated popular items from DB
+    from recommender.models import Item
+    return list(
+        Item.objects.filter(rating_count__gt=0)
+        .exclude(item_id__in=exclude_ids)
+        .order_by("-rating_count")[:k]
+    )
+
+
+
+
+
+def recommendations_api(request):
+    user_id = request.GET.get("user_id")
+
+    if not user_id:
+        return JsonResponse({"error": "user_id is required"}, status=400)
+
+    try:
+        from ml.inference.recommender import get_recommendations
+        from recommender.models import UserInteraction, UserBrowsingLog
+
+        explicit = list(
+            UserInteraction.objects.filter(user_id=user_id)
+            .values_list("item_id", flat=True)
+        )
+        implicit = list(
+            UserBrowsingLog.objects.filter(user_id=user_id)
+            .values_list("item_id", flat=True)
+        )
+        user_item_ids = list(set(explicit + implicit))
+
+        rec_ids = get_recommendations(
+            user_id=user_id,
+            user_item_ids=user_item_ids,
+            k=10,
+            exclude_item_ids=user_item_ids,
+        )
+
+        # Return lightweight serialisable dicts
+        from recommender.models import Item
+        items = {i.item_id: i for i in Item.objects.filter(item_id__in=rec_ids)}
+        recommendations = [
+            {
+                "item_id":      iid,
+                "title":        items[iid].title        if iid in items else None,
+                "category":     items[iid].category     if iid in items else None,
+                "price":        items[iid].price        if iid in items else None,
+                "avg_rating":   items[iid].avg_rating   if iid in items else None,
+                "rating_count": items[iid].rating_count if iid in items else None,
+                "image":        items[iid].display_image if iid in items else None,
+            }
+            for iid in rec_ids
+        ]
+
+        return JsonResponse({
+            "user_id": user_id,
+            "count": len(recommendations),
+            "recommendations": recommendations,
+        })
+
+    except Exception as e:
+        logger.error("[recommendations_api] %s", e)
+        return JsonResponse({"error": str(e)}, status=500)

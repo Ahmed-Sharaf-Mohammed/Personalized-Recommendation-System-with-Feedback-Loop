@@ -2,13 +2,17 @@
 Interaction Service — save/query user ratings & reviews from SQLite.
 Schema-compatible with interactions.parquet for ML retraining.
 """
+import logging
 from django.utils import timezone
 from recommender.models import UserInteraction
+
+# Writes to logs/interactions.log via LOGGING config in settings.py
+_ilog = logging.getLogger("recommender.interactions")
 
 
 def log_interaction(user_id, item_id, rating=None, review_text=None,
                     review_title=None, verified=False, helpful_votes=0):
-    return UserInteraction.objects.create(
+    obj = UserInteraction.objects.create(
         user_id=str(user_id),
         item_id=str(item_id),
         rating=rating,
@@ -17,6 +21,16 @@ def log_interaction(user_id, item_id, rating=None, review_text=None,
         verified=verified,
         helpful_votes=helpful_votes,
     )
+
+    # ── Write to interactions.log ──────────────────────────────────────────
+    _ilog.info(
+        "event=%-20s user=%-10s item=%-15s rating=%s verified=%s",
+        "explicit_rating", user_id, item_id,
+        f"{rating:.1f}" if rating is not None else "None",
+        verified,
+    )
+
+    return obj
 
 
 def get_item_reviews(item_id, limit=20):

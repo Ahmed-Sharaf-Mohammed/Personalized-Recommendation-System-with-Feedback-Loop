@@ -18,6 +18,9 @@ from recommender.tracking.session_tracker import (
 
 logger = logging.getLogger(__name__)
 
+# Dedicated logger → writes to logs/interactions.log via LOGGING config
+_ilog = logging.getLogger("recommender.interactions")
+
 
 def _get_user_id(request) -> str:
     """Return a stable user identifier (auth user ID or session key)."""
@@ -28,12 +31,12 @@ def _get_user_id(request) -> str:
 
 def log_event(request, item_id: str, event_type: str, source: str = "direct"):
     """
-    Log a single browsing event to the database.
+    Log a single browsing event to the database AND to interactions.log.
     Also updates session tracking for recently-viewed items.
     """
-    user_id = _get_user_id(request)
+    user_id    = _get_user_id(request)
     session_id = get_or_create_session_id(request)
-    device = detect_device(request)
+    device     = detect_device(request)
 
     try:
         UserBrowsingLog.objects.create(
@@ -47,19 +50,21 @@ def log_event(request, item_id: str, event_type: str, source: str = "direct"):
         if event_type == "view":
             track_item_view(request, item_id)
 
-        logger.debug(
-            f"[BrowsingTracker] event={event_type} user={user_id} "
-            f"item={item_id} source={source}"
+        # ── Write to interactions.log ──────────────────────────────────────
+        _ilog.info(
+            "event=%-20s user=%-10s item=%-15s source=%-15s device=%s session=%s",
+            event_type, user_id, item_id, source, device, session_id,
         )
+
     except Exception as e:
-        logger.error(f"[BrowsingTracker] Failed to log event: {e}")
+        logger.error("[BrowsingTracker] Failed to log event: %s", e)
 
 
 def log_search_event(request, query: str, results_count: int = 0):
-    """Log a search query event."""
-    user_id = _get_user_id(request)
+    """Log a search query event to DB and interactions.log."""
+    user_id    = _get_user_id(request)
     session_id = get_or_create_session_id(request)
-    device = detect_device(request)
+    device     = detect_device(request)
 
     try:
         SearchLog.objects.create(
@@ -70,5 +75,12 @@ def log_search_event(request, query: str, results_count: int = 0):
             device=device,
         )
         track_search(request, query)
+
+        # ── Write to interactions.log ──────────────────────────────────────
+        _ilog.info(
+            "event=%-20s user=%-10s query=%r results=%d device=%s session=%s",
+            "search", user_id, query, results_count, device, session_id,
+        )
+
     except Exception as e:
-        logger.error(f"[BrowsingTracker] Failed to log search: {e}")
+        logger.error("[BrowsingTracker] Failed to log search: %s", e)

@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-def iterative_filter(df, min_user_inter=3, min_item_inter=3, max_iter=5):
+def iterative_filter(df, min_user_inter=3, min_item_inter=3, max_iter=8):
     for i in range(max_iter):
         print(f"\n🔁 Iteration {i+1}")
 

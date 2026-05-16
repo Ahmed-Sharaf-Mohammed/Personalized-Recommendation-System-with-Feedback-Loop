@@ -11,7 +11,10 @@ django.setup()
 from recommender.models import UserInteraction, UserBrowsingLog, Item
 from sklearn.preprocessing import LabelEncoder
 
-ARTIFACTS_DIR = "data/artifacts"
+from pathlib import Path as _Path
+_PROJECT_ROOT = _Path(__file__).resolve().parent.parent.parent
+ARTIFACTS_DIR = str(_PROJECT_ROOT / "data" / "artifacts")
+
 os.makedirs(ARTIFACTS_DIR, exist_ok=True)
 
 def get_all_users():
